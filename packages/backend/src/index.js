@@ -1,5 +1,11 @@
 import express from "express";
+import path from "path";
 import { ApolloServer, gql } from "apollo-server-express";
+
+const app = express();
+
+const PORT = process.env.PORT || 4000;
+const isProd = process.env.NODE_ENV === "production";
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
@@ -17,9 +23,22 @@ const resolvers = {
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-const app = express();
 server.applyMiddleware({ app });
 
-app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
-);
+if (isProd) {
+  const buildPath = "../client/build";
+  app.use(express.static(buildPath));
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, buildPath, "index.html"));
+  });
+}
+
+app.listen({ port: PORT }, () => {
+  let url = `http://localhost:${PORT}`;
+
+  if (!isProd) {
+    url = url + server.graphqlPath;
+  }
+
+  console.log(`🚀 Server ready at ${url}`);
+});

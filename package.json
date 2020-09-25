@@ -4,9 +4,13 @@
     "packages/*"
   ],
   "scripts": {
+    "start": "yarn workspace @marvel/api start",
     "start:dev:api": "yarn workspace @marvel/api start:dev",
     "start:dev:client": "yarn workspace @marvel/client start:dev",
     "start:dev": "run-p start:dev:*",
+    "build:backend": "yarn workspace @marvel/api build",
+    "build:client": "yarn workspace @marvel/client build",
+    "build": "run-s build:backend build:client",
     "codegen": "yarn workspace @marvel/client codegen",
     "generate-schema": "yarn workspace @marvel/client generate-schema"
   },
