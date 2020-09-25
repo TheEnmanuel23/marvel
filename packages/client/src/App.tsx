@@ -10,7 +10,6 @@ function App() {
   }
 
   if (error) {
-    console.log("error: ", error);
     return <p>Error</p>;
   }
 

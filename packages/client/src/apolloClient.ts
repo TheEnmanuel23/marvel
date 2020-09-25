@@ -7,6 +7,12 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { ApolloLink } from "apollo-link";
 import apolloLogger from "apollo-link-logger";
+import introspectionQueryResultData from "./utilities/graphqlSchema.json";
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  // @ts-ignore
+  introspectionQueryResultData,
+});
 
 function createApolloClient() {
   const isDev = process.env.NODE_ENV === "development";
@@ -29,7 +35,7 @@ function createApolloClient() {
 
   return new ApolloClient({
     link: ApolloLink.from(isDev ? [apolloLogger, ...links] : links),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({ fragmentMatcher }),
   });
 }
 

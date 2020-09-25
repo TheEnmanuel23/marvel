@@ -8,7 +8,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "codegen": "apollo client:codegen --endpoint=http://localhost:4000/graphql --includes=src/graphql/**/*.ts --target typescript --tsFileExtension=d.ts --outputFlat src/@types/graphql",
+    "generate-schema": "apollo client:download-schema --endpoint=http://localhost:4000/graphql src/utilities/graphqlSchema.json"
   },
   "dependencies": {
     "@apollo/react-hooks": "3.1.5",
@@ -56,6 +58,7 @@
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.21",
     "@types/react-router-dom": "^5.1.5",
+    "apollo": "^2.31.0",
     "babel-loader": "^8.1.0",
     "react-is": "^16.13.1"
   }
