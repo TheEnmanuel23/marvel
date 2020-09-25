@@ -2,19 +2,6 @@
   "name": "@marvel/client",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "@types/jest": "^24.0.0",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.0",
-    "@types/react-dom": "^16.9.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3",
-    "typescript": "~3.7.2"
-  },
   "scripts": {
     "start:dev": "react-scripts start",
     "build": "react-scripts build",
@@ -22,6 +9,28 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
+  },
+  "dependencies": {
+    "@apollo/react-hooks": "3.1.5",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.0",
+    "@types/react-dom": "^16.9.0",
+    "apollo-cache-inmemory": "^1.6.6",
+    "apollo-client": "^2.6.10",
+    "apollo-link": "^1.2.14",
+    "apollo-link-error": "^1.1.13",
+    "apollo-link-http": "^1.5.17",
+    "apollo-link-logger": "^1.2.3",
+    "graphql-tag": "^2.11.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.3",
+    "typescript": "~3.7.2"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,6 +55,7 @@
     "@storybook/node-logger": "^6.0.21",
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.21",
+    "@types/react-router-dom": "^5.1.5",
     "babel-loader": "^8.1.0",
     "react-is": "^16.13.1"
   }
