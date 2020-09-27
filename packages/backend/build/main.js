@@ -787,7 +787,7 @@ __webpack_require__.r(__webpack_exports__);
   }
 
   input CharacterFiltersInput {
-    name: String
+    nameStartsWith: String
     comics: [ID]
     stories: [ID]
   }
@@ -836,19 +836,32 @@ const comicModule = Object(graphql_modules__WEBPACK_IMPORTED_MODULE_0__["createM
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 const root = "/comics";
 /* harmony default export */ __webpack_exports__["default"] = ({
   Query: {
-    async comics(_, args, {
+    async comics(_, {
+      filter,
+      orderBy
+    }, {
       request
     }) {
+      const filters = _objectSpread(_objectSpread({}, filter), {}, {
+        orderBy
+      });
+
       const {
         body: {
           data: {
             results
           }
         }
-      } = await request.get(root);
+      } = await request.get(root).query(filters);
       return results;
     },
 
@@ -897,6 +910,20 @@ const root = "/comics";
       return results;
     }
 
+  },
+  ComicSort: {
+    TITLE: "title",
+    ISSUE_NUMBER: "issueNumber"
+  },
+  IssueFormat: {
+    COMIC: "comic",
+    MAGAZINE: "magazine",
+    TRADE_PAPERBACK: "trade paperback",
+    HARDCOVER: "hardcover",
+    DIGEST: "digest",
+    GRAPHIC_NOVEL: "graphic novel",
+    DIGITAL_COMIC: "digital comic",
+    INFINITE_COMIC: "infinite comic"
   }
 });
 
@@ -921,12 +948,36 @@ __webpack_require__.r(__webpack_exports__);
     description: String
     resourceURI: String
     thumbnail: String
+    issueNumber: Float
+    format: String
     characters: [Character]
     stories: [Story]
   }
 
+  input ComicFiltersInput {
+    titleStartsWith: String
+    issueNumber: Float
+    format: IssueFormat
+  }
+
+  enum IssueFormat {
+    COMIC
+    MAGAZINE
+    TRADE_PAPERBACK
+    HARDCOVER
+    DIGEST
+    GRAPHIC_NOVEL
+    DIGITAL_COMIC
+    INFINITE_COMIC
+  }
+
+  enum ComicSort {
+    TITLE
+    ISSUE_NUMBER
+  }
+
   extend type Query {
-    comics: [Comic]
+    comics(filter: ComicFiltersInput, orderBy: ComicSort): [Comic]
     comic(id: ID!): Comic
   }
 `);

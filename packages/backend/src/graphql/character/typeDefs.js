@@ -12,7 +12,7 @@ export default gql`
   }
 
   input CharacterFiltersInput {
-    name: String
+    nameStartsWith: String
     comics: [ID]
     stories: [ID]
   }

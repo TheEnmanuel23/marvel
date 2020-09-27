@@ -7,12 +7,36 @@ export default gql`
     description: String
     resourceURI: String
     thumbnail: String
+    issueNumber: Float
+    format: String
     characters: [Character]
     stories: [Story]
   }
 
+  input ComicFiltersInput {
+    titleStartsWith: String
+    issueNumber: Float
+    format: IssueFormat
+  }
+
+  enum IssueFormat {
+    COMIC
+    MAGAZINE
+    TRADE_PAPERBACK
+    HARDCOVER
+    DIGEST
+    GRAPHIC_NOVEL
+    DIGITAL_COMIC
+    INFINITE_COMIC
+  }
+
+  enum ComicSort {
+    TITLE
+    ISSUE_NUMBER
+  }
+
   extend type Query {
-    comics: [Comic]
+    comics(filter: ComicFiltersInput, orderBy: ComicSort): [Comic]
     comic(id: ID!): Comic
   }
 `;

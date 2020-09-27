@@ -2,12 +2,14 @@ const root = "/comics";
 
 export default {
   Query: {
-    async comics(_, args, { request }) {
+    async comics(_, { filter, orderBy }, { request }) {
+      const filters = { ...filter, orderBy };
+
       const {
         body: {
           data: { results },
         },
-      } = await request.get(root);
+      } = await request.get(root).query(filters);
 
       return results;
     },
@@ -41,5 +43,19 @@ export default {
 
       return results;
     },
+  },
+  ComicSort: {
+    TITLE: "title",
+    ISSUE_NUMBER: "issueNumber",
+  },
+  IssueFormat: {
+    COMIC: "comic",
+    MAGAZINE: "magazine",
+    TRADE_PAPERBACK: "trade paperback",
+    HARDCOVER: "hardcover",
+    DIGEST: "digest",
+    GRAPHIC_NOVEL: "graphic novel",
+    DIGITAL_COMIC: "digital comic",
+    INFINITE_COMIC: "infinite comic",
   },
 };
