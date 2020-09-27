@@ -88,6 +88,25 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "../../node_modules/superagent-prefix/index.js":
+/*!*****************************************************************************************!*\
+  !*** /Users/enmanueljarquin/Development/marvel/node_modules/superagent-prefix/index.js ***!
+  \*****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function (prefix) {
+    return function (request) {
+        if (request.url[0] === '/') {
+            request.url = prefix + request.url;
+        }
+
+        return request;
+    };
+}
+
+/***/ }),
+
 /***/ "./src/characters/index.js":
 /*!*********************************!*\
   !*** ./src/characters/index.js ***!
@@ -100,40 +119,95 @@ __webpack_require__.r(__webpack_exports__);
 /* WEBPACK VAR INJECTION */(function(__dirname) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "charactersModule", function() { return charactersModule; });
 /* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql-modules */ "graphql-modules");
 /* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql_modules__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! superagent */ "superagent");
-/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(superagent__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var querystring__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! querystring */ "querystring");
-/* harmony import */ var querystring__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(querystring__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../config */ "./src/config/index.js");
-
+/* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./src/characters/typeDefs.js");
+/* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resolvers */ "./src/characters/resolvers.js");
 
 
 
 const charactersModule = Object(graphql_modules__WEBPACK_IMPORTED_MODULE_0__["createModule"])({
   id: "characters-module",
   __dirname: __dirname,
-  typeDefs: graphql_modules__WEBPACK_IMPORTED_MODULE_0__["gql"]`
-    type Query {
-      hello: String
-    }
-  `,
-  resolvers: {
-    Query: {
-      hello: async () => {
-        const api = _config__WEBPACK_IMPORTED_MODULE_3__["default"].get("api");
-        const params = querystring__WEBPACK_IMPORTED_MODULE_2___default.a.stringify({
-          apikey: api.publicKey,
-          hash: api.hash,
-          ts: 1
-        });
-        const res = await superagent__WEBPACK_IMPORTED_MODULE_1___default.a.get(`${api.url}/v1/public/characters?${params}`);
-        console.log(res.body.data);
-        return "Hello world!";
-      }
-    }
-  }
+  typeDefs: _typeDefs__WEBPACK_IMPORTED_MODULE_1__["default"],
+  resolvers: _resolvers__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* WEBPACK VAR INJECTION */}.call(this, "src/characters"))
+
+/***/ }),
+
+/***/ "./src/characters/resolvers.js":
+/*!*************************************!*\
+  !*** ./src/characters/resolvers.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const root = "/characters";
+/* harmony default export */ __webpack_exports__["default"] = ({
+  Query: {
+    async characters(_, args, {
+      request
+    }) {
+      const {
+        body: {
+          data: {
+            results
+          }
+        }
+      } = await request.get(root);
+      return results;
+    },
+
+    async character(_, {
+      id
+    }, {
+      request
+    }) {
+      const {
+        body: {
+          data: {
+            results
+          }
+        }
+      } = await request.get(`${root}/${id}`);
+      return results[0];
+    }
+
+  },
+  Character: {
+    thumbnail: info => `${info.thumbnail.path}.${info.thumbnail.extension}`
+  }
+});
+
+/***/ }),
+
+/***/ "./src/characters/typeDefs.js":
+/*!************************************!*\
+  !*** ./src/characters/typeDefs.js ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql-modules */ "graphql-modules");
+/* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql_modules__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (graphql_modules__WEBPACK_IMPORTED_MODULE_0__["gql"]`
+  type Character {
+    id: ID!
+    name: String!
+    description: String
+    thumbnail: String
+    resourceURI: String
+  }
+
+  type Query {
+    characters: [Character]
+    character(id: ID!): Character
+  }
+`);
 
 /***/ }),
 
@@ -206,7 +280,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! graphql-modules */ "graphql-modules");
 /* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(graphql_modules__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _characters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./characters */ "./src/characters/index.js");
-// import express from "express";
+/* harmony import */ var _utils_superagent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils/superagent */ "./src/utils/superagent.js");
+
 
 
 
@@ -216,7 +291,10 @@ const application = Object(graphql_modules__WEBPACK_IMPORTED_MODULE_1__["createA
 const PORT = process.env.PORT || 4000;
 const schema = application.createSchemaForApollo();
 const server = new apollo_server__WEBPACK_IMPORTED_MODULE_0__["ApolloServer"]({
-  schema
+  schema,
+  context: {
+    request: _utils_superagent__WEBPACK_IMPORTED_MODULE_3__["superagent"]
+  }
 });
 server.listen({
   port: PORT
@@ -225,6 +303,38 @@ server.listen({
 }) => {
   console.log(`🚀 Server ready at ${url}`);
 });
+
+/***/ }),
+
+/***/ "./src/utils/superagent.js":
+/*!*********************************!*\
+  !*** ./src/utils/superagent.js ***!
+  \*********************************/
+/*! exports provided: superagent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "superagent", function() { return superagent; });
+/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! superagent */ "superagent");
+/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(superagent__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var superagent_prefix__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! superagent-prefix */ "../../node_modules/superagent-prefix/index.js");
+/* harmony import */ var superagent_prefix__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(superagent_prefix__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../config */ "./src/config/index.js");
+
+
+
+
+function createAgent() {
+  const api = _config__WEBPACK_IMPORTED_MODULE_2__["default"].get("api");
+  return superagent__WEBPACK_IMPORTED_MODULE_0___default.a.agent().use(superagent_prefix__WEBPACK_IMPORTED_MODULE_1___default()(`${api.url}/v1/public`)).query({
+    apikey: api.publicKey,
+    hash: api.hash,
+    ts: 1
+  });
+}
+
+const superagent = createAgent();
 
 /***/ }),
 
@@ -281,17 +391,6 @@ module.exports = require("graphql-modules");
 /***/ (function(module, exports) {
 
 module.exports = require("path");
-
-/***/ }),
-
-/***/ "querystring":
-/*!******************************!*\
-  !*** external "querystring" ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = require("querystring");
 
 /***/ }),
 

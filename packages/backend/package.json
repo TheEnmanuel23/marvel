@@ -17,6 +17,7 @@
     "convict": "^6.0.0",
     "graphql": "^15.3.0",
     "graphql-modules": "^1.0.0-alpha.2",
-    "superagent": "^6.1.0"
+    "superagent": "^6.1.0",
+    "superagent-prefix": "^0.0.2"
   }
 }
