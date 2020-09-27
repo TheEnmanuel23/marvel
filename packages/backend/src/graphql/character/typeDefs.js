@@ -11,8 +11,14 @@ export default gql`
     stories: [Story]
   }
 
+  input CharacterFiltersInput {
+    name: String
+    comics: [ID]
+    stories: [ID]
+  }
+
   type Query {
-    characters: [Character]
+    characters(filter: CharacterFiltersInput, desc: Boolean): [Character]
     character(id: ID!): Character
   }
 `;

@@ -684,19 +684,32 @@ const characterModule = Object(graphql_modules__WEBPACK_IMPORTED_MODULE_0__["cre
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 const root = "/characters";
 /* harmony default export */ __webpack_exports__["default"] = ({
   Query: {
-    async characters(_, args, {
+    async characters(_, {
+      filter = {},
+      desc
+    }, {
       request
     }) {
+      const filters = _objectSpread(_objectSpread({}, filter), {}, {
+        orderBy: desc ? "-name" : "name"
+      });
+
       const {
         body: {
           data: {
             results
           }
         }
-      } = await request.get(root);
+      } = await request.get(root).query(filters);
       return results;
     },
 
@@ -773,8 +786,14 @@ __webpack_require__.r(__webpack_exports__);
     stories: [Story]
   }
 
+  input CharacterFiltersInput {
+    name: String
+    comics: [ID]
+    stories: [ID]
+  }
+
   type Query {
-    characters: [Character]
+    characters(filter: CharacterFiltersInput, desc: Boolean): [Character]
     character(id: ID!): Character
   }
 `);

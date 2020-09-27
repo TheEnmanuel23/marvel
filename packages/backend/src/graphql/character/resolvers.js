@@ -2,12 +2,14 @@ const root = "/characters";
 
 export default {
   Query: {
-    async characters(_, args, { request }) {
+    async characters(_, { filter = {}, desc }, { request }) {
+      const filters = { ...filter, orderBy: desc ? "-name" : "name" };
+
       const {
         body: {
           data: { results },
         },
-      } = await request.get(root);
+      } = await request.get(root).query(filters);
 
       return results;
     },
