@@ -1,5 +1,6 @@
 import request from "superagent";
 import prefix from "superagent-prefix";
+import * as logger from "superagent-logger";
 import config from "../config";
 
 function createAgent() {
@@ -8,6 +9,7 @@ function createAgent() {
   return request
     .agent()
     .use(prefix(`${api.url}/v1/public`))
+    .use(logger)
     .query({
       apikey: api.publicKey,
       hash: api.hash,

@@ -23,5 +23,23 @@ export default {
   },
   Character: {
     thumbnail: (info) => `${info.thumbnail.path}.${info.thumbnail.extension}`,
+    async comics(info, args, { request }) {
+      const {
+        body: {
+          data: { results },
+        },
+      } = await request.get(`${root}/${info.id}/comics`);
+
+      return results;
+    },
+    async stories(info, args, { request }) {
+      const {
+        body: {
+          data: { results },
+        },
+      } = await request.get(`${root}/${info.id}/stories`);
+
+      return results;
+    },
   },
 };

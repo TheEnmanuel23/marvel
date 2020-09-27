@@ -2,8 +2,8 @@ import { createModule } from "graphql-modules";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 
-export const charactersModule = createModule({
-  id: "characters-module",
+export const storyModule = createModule({
+  id: "story-module",
   __dirname: __dirname,
   typeDefs,
   resolvers,

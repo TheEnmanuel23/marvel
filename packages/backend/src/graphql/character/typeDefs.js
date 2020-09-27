@@ -7,6 +7,8 @@ export default gql`
     description: String
     thumbnail: String
     resourceURI: String
+    comics: [Comic]
+    stories: [Story]
   }
 
   type Query {

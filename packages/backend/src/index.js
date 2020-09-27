@@ -1,10 +1,13 @@
 import { ApolloServer } from "apollo-server";
 import { createApplication } from "graphql-modules";
-import { charactersModule } from "./characters";
 import { superagent } from "./utils/superagent";
 
+import { characterModule } from "./graphql/character";
+import { comicModule } from "./graphql/comic";
+import { storyModule } from "./graphql/story";
+
 const application = createApplication({
-  modules: [charactersModule],
+  modules: [characterModule, comicModule, storyModule],
 });
 
 const PORT = process.env.PORT || 4000;
