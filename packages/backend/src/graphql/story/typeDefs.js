@@ -7,5 +7,12 @@ export default gql`
     description: String
     resourceURI: String
     thumbnail: String
+    characters: [Character]
+    comics: [Comic]
+  }
+
+  extend type Query {
+    stories: [Story]
+    story(id: ID!): Story
   }
 `;
