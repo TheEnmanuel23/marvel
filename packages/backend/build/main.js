@@ -817,9 +817,67 @@ const comicModule = Object(graphql_modules__WEBPACK_IMPORTED_MODULE_0__["createM
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+const root = "/comics";
 /* harmony default export */ __webpack_exports__["default"] = ({
+  Query: {
+    async comics(_, args, {
+      request
+    }) {
+      const {
+        body: {
+          data: {
+            results
+          }
+        }
+      } = await request.get(root);
+      return results;
+    },
+
+    async comic(_, {
+      id
+    }, {
+      request
+    }) {
+      const {
+        body: {
+          data: {
+            results
+          }
+        }
+      } = await request.get(`${root}/${id}`);
+      return results[0];
+    }
+
+  },
   Comic: {
-    thumbnail: info => `${info.thumbnail.path}.${info.thumbnail.extension}`
+    thumbnail: info => `${info.thumbnail.path}.${info.thumbnail.extension}`,
+
+    async characters(info, args, {
+      request
+    }) {
+      const {
+        body: {
+          data: {
+            results
+          }
+        }
+      } = await request.get(`${root}/${info.id}/characters`);
+      return results;
+    },
+
+    async stories(info, args, {
+      request
+    }) {
+      const {
+        body: {
+          data: {
+            results
+          }
+        }
+      } = await request.get(`${root}/${info.id}/stories`);
+      return results;
+    }
+
   }
 });
 
@@ -844,6 +902,13 @@ __webpack_require__.r(__webpack_exports__);
     description: String
     resourceURI: String
     thumbnail: String
+    characters: [Character]
+    stories: [Story]
+  }
+
+  extend type Query {
+    comics: [Comic]
+    comic(id: ID!): Comic
   }
 `);
 
