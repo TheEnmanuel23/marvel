@@ -12,10 +12,11 @@
     "@graphql-tools/load-files": "^6.2.3",
     "@graphql-tools/merge": "^6.2.3",
     "@graphql-tools/utils": "^6.2.3",
-    "apollo-server-express": "^2.18.1",
+    "apollo-server": "^2.18.1",
     "backpack-core": "^0.8.4",
-    "express": "^4.17.1",
+    "convict": "^6.0.0",
     "graphql": "^15.3.0",
+    "graphql-modules": "^1.0.0-alpha.2",
     "superagent": "^6.1.0"
   }
 }

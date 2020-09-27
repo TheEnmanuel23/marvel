@@ -5,10 +5,6 @@ services:
     container_name: marvel_api
     build:
       context: ./packages/backend
-      # args:
-      #   DB_NAME: ${CC_DB_NAME}
-      #   MONGO_ADMIN_URI: ${CC_MONGO_ADMIN_URI}
-      #   NODE_ENV: ${NODE_ENV}
     ports:
       - "4000:4000"
   marvel_ui:
