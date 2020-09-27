@@ -4,7 +4,9 @@
     "packages/*"
   ],
   "scripts": {
-    "start": "yarn workspace @marvel/api start",
+    "start:prod:api": "yarn workspace @marvel/api start",
+    "start:prod:client": "yarn workspace @marvel/client start",
+    "start": "run-p start:prod:*",
     "start:dev:api": "yarn workspace @marvel/api start:dev",
     "start:dev:client": "yarn workspace @marvel/client start:dev",
     "start:dev": "run-p start:dev:*",

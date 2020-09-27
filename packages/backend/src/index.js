@@ -25,20 +25,7 @@ const server = new ApolloServer({ typeDefs, resolvers });
 
 server.applyMiddleware({ app });
 
-if (isProd) {
-  const buildPath = "../client/build";
-  app.use(express.static(buildPath));
-  app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, buildPath, "index.html"));
-  });
-}
-
 app.listen({ port: PORT }, () => {
-  let url = `http://localhost:${PORT}`;
-
-  if (!isProd) {
-    url = url + server.graphqlPath;
-  }
-
+  let url = `http://localhost:${PORT}${server.graphqlPath}`;
   console.log(`🚀 Server ready at ${url}`);
 });

@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  marvel_api:
+    container_name: marvel_api
+    build:
+      context: ./packages/backend
+      # args:
+      #   DB_NAME: ${CC_DB_NAME}
+      #   MONGO_ADMIN_URI: ${CC_MONGO_ADMIN_URI}
+      #   NODE_ENV: ${NODE_ENV}
+    ports:
+      - "4000:4000"
+  marvel_ui:
+    container_name: marvel_ui
+    build:
+      context: ./packages/client
+      args:
+        REACT_APP_API: ${REACT_APP_API}
+    ports:
+      - "3000:3000"
+    volumes:
+      - /build
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - 80:80
+    volumes:
+      - /www/static
+    depends_on:
+      - marvel_ui
