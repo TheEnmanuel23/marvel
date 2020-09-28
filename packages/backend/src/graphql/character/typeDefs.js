@@ -17,8 +17,20 @@ export default gql`
     stories: [ID]
   }
 
+  type CharacterConnection implements PaginationResponse {
+    offset: Int
+    total: Int
+    limit: Int
+    count: Int
+    results: [Character]
+  }
+
   type Query {
-    characters(filter: CharacterFiltersInput, desc: Boolean): [Character]
+    characters(
+      filter: CharacterFiltersInput
+      desc: Boolean
+      pagination: PaginationInput
+    ): CharacterConnection
     character(id: ID!): Character
   }
 `;

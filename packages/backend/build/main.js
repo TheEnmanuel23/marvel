@@ -695,22 +695,25 @@ const root = "/characters";
   Query: {
     async characters(_, {
       filter = {},
-      desc
+      desc,
+      pagination
     }, {
       request
     }) {
-      const filters = _objectSpread(_objectSpread({}, filter), {}, {
+      let filters = _objectSpread(_objectSpread({}, filter), {}, {
         orderBy: desc ? "-name" : "name"
       });
 
+      if (pagination && pagination.offset) {
+        filters.offset = pagination.offset;
+      }
+
       const {
         body: {
-          data: {
-            results
-          }
+          data
         }
       } = await request.get(root).query(filters);
-      return results;
+      return data;
     },
 
     async character(_, {
@@ -792,8 +795,20 @@ __webpack_require__.r(__webpack_exports__);
     stories: [ID]
   }
 
+  type CharacterConnection implements PaginationResponse {
+    offset: Int
+    total: Int
+    limit: Int
+    count: Int
+    results: [Character]
+  }
+
   type Query {
-    characters(filter: CharacterFiltersInput, desc: Boolean): [Character]
+    characters(
+      filter: CharacterFiltersInput
+      desc: Boolean
+      pagination: PaginationInput
+    ): CharacterConnection
     character(id: ID!): Character
   }
 `);
@@ -847,7 +862,8 @@ const root = "/comics";
   Query: {
     async comics(_, {
       filter,
-      orderBy
+      orderBy,
+      pagination
     }, {
       request
     }) {
@@ -855,14 +871,16 @@ const root = "/comics";
         orderBy
       });
 
+      if (pagination && pagination.offset) {
+        filters.offset = pagination.offset;
+      }
+
       const {
         body: {
-          data: {
-            results
-          }
+          data
         }
       } = await request.get(root).query(filters);
-      return results;
+      return data;
     },
 
     async comic(_, {
@@ -976,9 +994,88 @@ __webpack_require__.r(__webpack_exports__);
     ISSUE_NUMBER
   }
 
+  type ComicConnection implements PaginationResponse {
+    offset: Int
+    total: Int
+    limit: Int
+    count: Int
+    results: [Comic]
+  }
+
   extend type Query {
-    comics(filter: ComicFiltersInput, orderBy: ComicSort): [Comic]
+    comics(
+      filter: ComicFiltersInput
+      orderBy: ComicSort
+      pagination: PaginationInput
+    ): ComicConnection
     comic(id: ID!): Comic
+  }
+`);
+
+/***/ }),
+
+/***/ "./src/graphql/common/index.js":
+/*!*************************************!*\
+  !*** ./src/graphql/common/index.js ***!
+  \*************************************/
+/*! exports provided: commonModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(__dirname) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "commonModule", function() { return commonModule; });
+/* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql-modules */ "graphql-modules");
+/* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql_modules__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _typeDefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./typeDefs */ "./src/graphql/common/typeDefs.js");
+/* harmony import */ var _resolvers__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./resolvers */ "./src/graphql/common/resolvers.js");
+
+
+
+const commonModule = Object(graphql_modules__WEBPACK_IMPORTED_MODULE_0__["createModule"])({
+  id: "common-module",
+  __dirname: __dirname,
+  typeDefs: _typeDefs__WEBPACK_IMPORTED_MODULE_1__["default"],
+  resolvers: _resolvers__WEBPACK_IMPORTED_MODULE_2__["default"]
+});
+/* WEBPACK VAR INJECTION */}.call(this, "src/graphql/common"))
+
+/***/ }),
+
+/***/ "./src/graphql/common/resolvers.js":
+/*!*****************************************!*\
+  !*** ./src/graphql/common/resolvers.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ({});
+
+/***/ }),
+
+/***/ "./src/graphql/common/typeDefs.js":
+/*!****************************************!*\
+  !*** ./src/graphql/common/typeDefs.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! graphql-modules */ "graphql-modules");
+/* harmony import */ var graphql_modules__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(graphql_modules__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = (graphql_modules__WEBPACK_IMPORTED_MODULE_0__["gql"]`
+  input PaginationInput {
+    offset: Int
+  }
+
+  interface PaginationResponse {
+    offset: Int
+    total: Int
+    limit: Int
+    count: Int
   }
 `);
 
@@ -1023,17 +1120,23 @@ __webpack_require__.r(__webpack_exports__);
 const root = "/stories";
 /* harmony default export */ __webpack_exports__["default"] = ({
   Query: {
-    async stories(_, args, {
+    async stories(_, {
+      pagination
+    }, {
       request
     }) {
+      let filters = {};
+
+      if (pagination && pagination.offset) {
+        filters.offset = pagination.offset;
+      }
+
       const {
         body: {
-          data: {
-            results
-          }
+          data
         }
-      } = await request.get(root);
-      return results;
+      } = await request.get(root).query(filters);
+      return data;
     },
 
     async story(_, {
@@ -1115,8 +1218,16 @@ __webpack_require__.r(__webpack_exports__);
     comics: [Comic]
   }
 
+  type StoryConnection implements PaginationResponse {
+    offset: Int
+    total: Int
+    limit: Int
+    count: Int
+    results: [Story]
+  }
+
   extend type Query {
-    stories: [Story]
+    stories(pagination: PaginationInput): StoryConnection
     story(id: ID!): Story
   }
 `);
@@ -1140,6 +1251,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _graphql_character__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./graphql/character */ "./src/graphql/character/index.js");
 /* harmony import */ var _graphql_comic__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./graphql/comic */ "./src/graphql/comic/index.js");
 /* harmony import */ var _graphql_story__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./graphql/story */ "./src/graphql/story/index.js");
+/* harmony import */ var _graphql_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./graphql/common */ "./src/graphql/common/index.js");
+
 
 
 
@@ -1147,7 +1260,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const application = Object(graphql_modules__WEBPACK_IMPORTED_MODULE_1__["createApplication"])({
-  modules: [_graphql_character__WEBPACK_IMPORTED_MODULE_3__["characterModule"], _graphql_comic__WEBPACK_IMPORTED_MODULE_4__["comicModule"], _graphql_story__WEBPACK_IMPORTED_MODULE_5__["storyModule"]]
+  modules: [_graphql_common__WEBPACK_IMPORTED_MODULE_6__["commonModule"], _graphql_character__WEBPACK_IMPORTED_MODULE_3__["characterModule"], _graphql_comic__WEBPACK_IMPORTED_MODULE_4__["comicModule"], _graphql_story__WEBPACK_IMPORTED_MODULE_5__["storyModule"]]
 });
 const PORT = process.env.PORT || 4000;
 const schema = application.createSchemaForApollo();

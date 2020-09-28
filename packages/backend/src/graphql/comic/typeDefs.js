@@ -35,8 +35,20 @@ export default gql`
     ISSUE_NUMBER
   }
 
+  type ComicConnection implements PaginationResponse {
+    offset: Int
+    total: Int
+    limit: Int
+    count: Int
+    results: [Comic]
+  }
+
   extend type Query {
-    comics(filter: ComicFiltersInput, orderBy: ComicSort): [Comic]
+    comics(
+      filter: ComicFiltersInput
+      orderBy: ComicSort
+      pagination: PaginationInput
+    ): ComicConnection
     comic(id: ID!): Comic
   }
 `;

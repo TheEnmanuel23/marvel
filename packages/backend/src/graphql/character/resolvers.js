@@ -2,16 +2,18 @@ const root = "/characters";
 
 export default {
   Query: {
-    async characters(_, { filter = {}, desc }, { request }) {
-      const filters = { ...filter, orderBy: desc ? "-name" : "name" };
+    async characters(_, { filter = {}, desc, pagination }, { request }) {
+      let filters = { ...filter, orderBy: desc ? "-name" : "name" };
+
+      if (pagination && pagination.offset) {
+        filters.offset = pagination.offset;
+      }
 
       const {
-        body: {
-          data: { results },
-        },
+        body: { data },
       } = await request.get(root).query(filters);
 
-      return results;
+      return data;
     },
     async character(_, { id }, { request }) {
       const {

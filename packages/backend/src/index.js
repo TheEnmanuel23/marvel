@@ -5,9 +5,10 @@ import { superagent } from "./utils/superagent";
 import { characterModule } from "./graphql/character";
 import { comicModule } from "./graphql/comic";
 import { storyModule } from "./graphql/story";
+import { commonModule } from "./graphql/common";
 
 const application = createApplication({
-  modules: [characterModule, comicModule, storyModule],
+  modules: [commonModule, characterModule, comicModule, storyModule],
 });
 
 const PORT = process.env.PORT || 4000;

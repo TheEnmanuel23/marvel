@@ -11,8 +11,16 @@ export default gql`
     comics: [Comic]
   }
 
+  type StoryConnection implements PaginationResponse {
+    offset: Int
+    total: Int
+    limit: Int
+    count: Int
+    results: [Story]
+  }
+
   extend type Query {
-    stories: [Story]
+    stories(pagination: PaginationInput): StoryConnection
     story(id: ID!): Story
   }
 `;
