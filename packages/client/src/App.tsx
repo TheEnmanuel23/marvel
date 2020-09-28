@@ -1,28 +1,30 @@
 import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import { Switch, Route } from "react-router-dom";
-import { HELLO } from "./graphql/query";
-
-function Home() {
-  const { loading, error, data } = useQuery(HELLO);
-
-  if (loading) {
-    return <p>loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error</p>;
-  }
-
-  return <div className="App">{JSON.stringify(data)}</div>;
-}
+import { Switch, Route, Link, useLocation } from "react-router-dom";
+import { Layout } from "./components/Layout";
+import { Navbar, NavbarItem } from "./components/Navbar";
 
 function App() {
+  const location = useLocation();
+  const pathname = location.pathname;
+
   return (
-    <Switch>
-      <Route path="/detail" component={() => <p>Detalle</p>} />
-      <Route path="/" component={Home} />
-    </Switch>
+    <Layout>
+      <Navbar>
+        <NavbarItem active={pathname === "/"}>
+          <Link to="/">Characters</Link>
+        </NavbarItem>
+        <NavbarItem active={pathname === "/comics"}>
+          <Link to="/comics">Comics</Link>
+        </NavbarItem>
+        <NavbarItem active={pathname === "/stories"}>
+          <Link to="/stories">Stories</Link>
+        </NavbarItem>
+      </Navbar>
+      <Switch>
+        <Route path="/comics" component={() => <p>Detalle</p>} />
+        <Route path="/" component={() => <p>home</p>} />
+      </Switch>
+    </Layout>
   );
 }
 

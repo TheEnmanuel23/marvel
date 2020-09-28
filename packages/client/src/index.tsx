@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/react-hooks";
 import App from "./App";
+import GlobalStyle from "./utilities/globalStyles";
 import * as serviceWorker from "./serviceWorker";
 
 import apolloClient from "./apolloClient";
@@ -11,6 +12,7 @@ ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
       <BrowserRouter>
+        <GlobalStyle />
         <App />
       </BrowserRouter>
     </ApolloProvider>
