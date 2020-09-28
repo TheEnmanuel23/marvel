@@ -4,7 +4,7 @@ import { Switch, Route, Link, useLocation } from "react-router-dom";
 // @components
 import { Layout } from "./components/Layout";
 import { Navbar, NavbarItem } from "./components/Navbar";
-import Character from "./containers/character";
+import { Character } from "./utilities/asyncModules";
 
 function App() {
   const location = useLocation();

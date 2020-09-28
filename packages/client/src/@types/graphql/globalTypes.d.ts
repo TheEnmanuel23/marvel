@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface PaginationInput {
+  offset?: number | null;
+  limit?: number | null;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================
