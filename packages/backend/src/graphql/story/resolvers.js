@@ -2,16 +2,10 @@ const root = "/stories";
 
 export default {
   Query: {
-    async stories(_, { pagination }, { request }) {
-      let filters = {};
-
-      if (pagination && pagination.offset) {
-        filters.offset = pagination.offset;
-      }
-
+    async stories(_, { pagination = {} }, { request }) {
       const {
         body: { data },
-      } = await request.get(root).query(filters);
+      } = await request.get(root).query(pagination);
 
       return data;
     },

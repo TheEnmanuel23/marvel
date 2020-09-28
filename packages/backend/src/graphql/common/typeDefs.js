@@ -3,6 +3,7 @@ import { gql } from "graphql-modules";
 export default gql`
   input PaginationInput {
     offset: Int
+    limit: Int
   }
 
   interface PaginationResponse {

@@ -2,12 +2,8 @@ const root = "/comics";
 
 export default {
   Query: {
-    async comics(_, { filter, orderBy, pagination }, { request }) {
-      const filters = { ...filter, orderBy };
-
-      if (pagination && pagination.offset) {
-        filters.offset = pagination.offset;
-      }
+    async comics(_, { filter, orderBy, pagination = {} }, { request }) {
+      const filters = { ...filter, orderBy, ...pagination };
 
       const {
         body: { data },

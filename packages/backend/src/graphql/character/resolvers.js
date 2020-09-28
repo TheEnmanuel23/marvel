@@ -2,12 +2,12 @@ const root = "/characters";
 
 export default {
   Query: {
-    async characters(_, { filter = {}, desc, pagination }, { request }) {
-      let filters = { ...filter, orderBy: desc ? "-name" : "name" };
-
-      if (pagination && pagination.offset) {
-        filters.offset = pagination.offset;
-      }
+    async characters(_, { filter = {}, desc, pagination = {} }, { request }) {
+      let filters = {
+        ...filter,
+        ...pagination,
+        orderBy: desc ? "-name" : "name",
+      };
 
       const {
         body: { data },

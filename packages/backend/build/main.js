@@ -696,17 +696,13 @@ const root = "/characters";
     async characters(_, {
       filter = {},
       desc,
-      pagination
+      pagination = {}
     }, {
       request
     }) {
-      let filters = _objectSpread(_objectSpread({}, filter), {}, {
+      let filters = _objectSpread(_objectSpread(_objectSpread({}, filter), pagination), {}, {
         orderBy: desc ? "-name" : "name"
       });
-
-      if (pagination && pagination.offset) {
-        filters.offset = pagination.offset;
-      }
 
       const {
         body: {
@@ -863,17 +859,13 @@ const root = "/comics";
     async comics(_, {
       filter,
       orderBy,
-      pagination
+      pagination = {}
     }, {
       request
     }) {
       const filters = _objectSpread(_objectSpread({}, filter), {}, {
         orderBy
-      });
-
-      if (pagination && pagination.offset) {
-        filters.offset = pagination.offset;
-      }
+      }, pagination);
 
       const {
         body: {
@@ -1069,6 +1061,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (graphql_modules__WEBPACK_IMPORTED_MODULE_0__["gql"]`
   input PaginationInput {
     offset: Int
+    limit: Int
   }
 
   interface PaginationResponse {
@@ -1121,21 +1114,15 @@ const root = "/stories";
 /* harmony default export */ __webpack_exports__["default"] = ({
   Query: {
     async stories(_, {
-      pagination
+      pagination = {}
     }, {
       request
     }) {
-      let filters = {};
-
-      if (pagination && pagination.offset) {
-        filters.offset = pagination.offset;
-      }
-
       const {
         body: {
           data
         }
-      } = await request.get(root).query(filters);
+      } = await request.get(root).query(pagination);
       return data;
     },
 
