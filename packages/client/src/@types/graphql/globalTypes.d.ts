@@ -7,10 +7,27 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum IssueFormat {
+  COMIC = "COMIC",
+  DIGEST = "DIGEST",
+  DIGITAL_COMIC = "DIGITAL_COMIC",
+  GRAPHIC_NOVEL = "GRAPHIC_NOVEL",
+  HARDCOVER = "HARDCOVER",
+  INFINITE_COMIC = "INFINITE_COMIC",
+  MAGAZINE = "MAGAZINE",
+  TRADE_PAPERBACK = "TRADE_PAPERBACK",
+}
+
 export interface CharacterFiltersInput {
   nameStartsWith?: string | null;
   comics?: string | null;
   stories?: string | null;
+}
+
+export interface ComicFiltersInput {
+  titleStartsWith?: string | null;
+  issueNumber?: number | null;
+  format?: IssueFormat | null;
 }
 
 export interface PaginationInput {

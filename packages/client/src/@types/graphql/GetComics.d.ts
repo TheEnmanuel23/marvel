@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { PaginationInput } from "./globalTypes";
+import { ComicFiltersInput, PaginationInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: GetComics
@@ -32,5 +32,6 @@ export interface GetComics {
 }
 
 export interface GetComicsVariables {
+  filter?: ComicFiltersInput | null;
   pagination?: PaginationInput | null;
 }

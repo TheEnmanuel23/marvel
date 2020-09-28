@@ -12,8 +12,8 @@ export const COMIC_FRAGMENT = gql`
 `;
 
 export const GET_COMICS = gql`
-  query GetComics($pagination: PaginationInput) {
-    comics(pagination: $pagination) {
+  query GetComics($filter: ComicFiltersInput, $pagination: PaginationInput) {
+    comics(filter: $filter, pagination: $pagination) {
       ...PaginationFragment
       results {
         ...ComicFragment

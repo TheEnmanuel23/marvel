@@ -1,90 +1,76 @@
 // @vendors
-import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import get from "lodash/fp/get";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React, { useState } from "react";
 // @components
-import { Card } from "../../components/Card";
-import { Grid } from "../../components/Grid";
-import { Loader } from "../../components/Loader";
-// @types
+import ComicList from "./List";
+import { FormGroup } from "../../components/FormGroup";
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
+import { ISSUE_FORMAT } from "../../utilities/constants";
+import { Select } from "../../components/Select";
 
-import {
-  GetComics,
-  GetComicsVariables,
-  GetComics_comics_results,
-} from "../../@types/graphql/GetComics";
-// @graphql
-import { LIMIT } from "../../utilities/constants";
-import { GET_COMICS } from "../../graphql/comic";
+const getOptions = () => {
+  const options = [
+    {
+      value: "",
+      label: "",
+    },
+  ];
+  for (const [value, label] of Object.entries(ISSUE_FORMAT)) {
+    options.push({ label, value });
+  }
+  return options;
+};
 
 function Comics() {
-  const { loading, error, data, fetchMore } = useQuery<
-    GetComics,
-    GetComicsVariables
-  >(GET_COMICS, {
-    variables: {
-      pagination: {
-        limit: LIMIT,
-      },
-    },
-  });
+  const [filters, setFilters] = useState({});
+  const [title, setTitle] = useState("");
+  const [issueNumber, setIssueNumber] = useState("");
+  const [format, setFormat] = useState("");
 
-  if (loading) {
-    return <Loader loading />;
-  }
+  const onFilter = () => {
+    let filterBy: { [x: string]: any } = {};
 
-  if (error) {
-    return <p>Error</p>;
-  }
+    if (title) {
+      filterBy.titleStartsWith = title;
+    }
+    if (issueNumber) {
+      filterBy.issueNumber = Number(issueNumber);
+    }
+    if (format) {
+      filterBy.format = format;
+    }
 
-  const comics = get("comics.results", data);
-
-  const loadMore = () => {
-    fetchMore({
-      variables: {
-        pagination: {
-          offset: comics.length,
-          limit: LIMIT,
-        },
-      },
-      updateQuery: (prev: GetComics, { fetchMoreResult }) => {
-        if (!fetchMoreResult) return prev;
-
-        const prevComics = get("comics.results", prev) || [];
-        const newComics = get("comics.results", fetchMoreResult) || [];
-
-        const data = {
-          comics: {
-            ...fetchMoreResult.comics,
-            results: [...prevComics, ...newComics],
-          },
-        } as any;
-
-        return data;
-      },
-    });
+    setFilters(filterBy);
   };
 
+  const options = getOptions();
+
   return (
-    <Grid>
-      <InfiniteScroll
-        dataLength={comics.length}
-        next={loadMore}
-        hasMore={true}
-        loader={<p>Loading more...</p>}
-      >
-        {comics.map((comic: GetComics_comics_results) => (
-          <Card
-            key={comic.id}
-            thumbnail={comic.thumbnail || ""}
-            name={comic.title}
-            id={comic.id}
-            to={`/comics/${comic.id}`}
+    <div>
+      <div>
+        <h3>Filter by</h3>
+        <FormGroup>
+          <Input
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Comic title"
           />
-        ))}
-      </InfiniteScroll>
-    </Grid>
+          <Input
+            type="numeric"
+            onChange={(e) => setIssueNumber(e.target.value)}
+            placeholder="Issue number"
+          />
+          <Select onChange={(e) => setFormat(e.target.value)}>
+            {options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </Select>
+        </FormGroup>
+        <Button onClick={onFilter}>Filter</Button>
+      </div>
+      <ComicList filters={filters} />
+    </div>
   );
 }
 
