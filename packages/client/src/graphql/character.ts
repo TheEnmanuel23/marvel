@@ -12,8 +12,11 @@ export const CHARACTER_FRAGMENT = gql`
 `;
 
 export const GET_CHARACTERS = gql`
-  query GetCharacters($pagination: PaginationInput) {
-    characters(pagination: $pagination) {
+  query GetCharacters(
+    $filter: CharacterFiltersInput
+    $pagination: PaginationInput
+  ) {
+    characters(filter: $filter, pagination: $pagination) {
       ...PaginationFragment
       results {
         ...CharacterFragment

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const Grid = styled.div`
+  margin-top: 20px;
+
   .infinite-scroll-component {
     display: grid;
     grid-template-columns: repeat(1, 1fr);

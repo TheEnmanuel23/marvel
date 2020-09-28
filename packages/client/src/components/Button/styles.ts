@@ -32,3 +32,14 @@ export const Link = styled.a`
     height: 25px;
   }
 `;
+
+export const StyledButton = styled.button`
+  padding: 5px 30px;
+  font-family: "Poppins", sans-serif;
+  font-size: 20px;
+  color: white;
+  background: #6225e6;
+  transform: skewX(-15deg);
+  text-transform: uppercase;
+  font-weight: bold;
+`;

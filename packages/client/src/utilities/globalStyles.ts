@@ -7,7 +7,7 @@ const GlobalStyle = createGlobalStyle`
     background: rgb(242,255,19);
     font-family: 'Comic Neue', cursive, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;;
+    sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

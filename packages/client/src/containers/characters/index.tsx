@@ -1,89 +1,59 @@
 // @vendors
-import React from "react";
-import { useQuery } from "@apollo/react-hooks";
-import get from "lodash/fp/get";
-import InfiniteScroll from "react-infinite-scroll-component";
+import React, { useState } from "react";
 // @components
-import { Card } from "../../components/Card";
-import { Grid } from "../../components/Grid";
-import { Loader } from "../../components/Loader";
-// @types
-import {
-  GetCharacters,
-  GetCharactersVariables,
-  GetCharacters_characters_results,
-} from "../../@types/graphql/GetCharacters";
-// @graphql
-import { GET_CHARACTERS } from "../../graphql/character";
-import { LIMIT } from "../../utilities/constants";
+import CharacterList from "./List";
+import { Button } from "../../components/Button";
+import { Input } from "../../components/Input";
+import { Tag } from "../../components/Tag";
+import { FormGroup } from "../../components/FormGroup";
 
 function Character() {
-  const { loading, error, data, fetchMore } = useQuery<
-    GetCharacters,
-    GetCharactersVariables
-  >(GET_CHARACTERS, {
-    variables: {
-      pagination: {
-        limit: LIMIT,
-      },
-    },
-  });
+  const [filters, setFilters] = useState({});
+  const [name, setName] = useState("");
+  const [comicIds, setComicIds] = useState("");
+  const [storiesIds, setStoryIds] = useState("");
 
-  if (loading) {
-    return <Loader loading />;
-  }
+  const handleComicsIds = (tags: { value: string }[]) => {
+    const ids = tags.map(({ value }: { value: string }) => value);
+    setComicIds(ids.join(","));
+  };
 
-  if (error) {
-    return <p>Error</p>;
-  }
+  const handleStoryIds = (tags: { value: string }[]) => {
+    const ids = tags.map(({ value }: { value: string }) => value);
+    setStoryIds(ids.join(","));
+  };
 
-  const characters = get("characters.results", data);
+  const onFilter = () => {
+    let filterBy: { [x: string]: any } = {};
+    if (name) {
+      filterBy.nameStartsWith = name;
+    }
+    if (comicIds) {
+      filterBy.comics = comicIds;
+    }
+    if (storiesIds) {
+      filterBy.stories = storiesIds;
+    }
 
-  const loadMore = () => {
-    fetchMore({
-      variables: {
-        pagination: {
-          offset: characters.length,
-          limit: LIMIT,
-        },
-      },
-      updateQuery: (prev: GetCharacters, { fetchMoreResult }) => {
-        if (!fetchMoreResult) return prev;
-
-        const prevCharacters = get("characters.results", prev) || [];
-        const newCharacters = get("characters.results", fetchMoreResult) || [];
-
-        const data = {
-          characters: {
-            ...fetchMoreResult.characters,
-            results: [...prevCharacters, ...newCharacters],
-          },
-        } as any;
-
-        return data;
-      },
-    });
+    setFilters(filterBy);
   };
 
   return (
-    <Grid>
-      <InfiniteScroll
-        dataLength={characters.length}
-        next={loadMore}
-        hasMore={true}
-        loader={<p>Loading more...</p>}
-      >
-        {characters.map((hero: GetCharacters_characters_results) => (
-          <Card
-            key={hero.id}
-            thumbnail={hero.thumbnail || ""}
-            name={hero.name}
-            id={hero.id}
-            to={`/characters/${hero.id}`}
+    <div>
+      <div>
+        <h3>Filter by</h3>
+        <FormGroup>
+          <Input
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Character name"
           />
-        ))}
-      </InfiniteScroll>
-    </Grid>
+          <Tag handleChange={handleComicsIds} placeholder="Enter Comic Ids" />
+          <Tag handleChange={handleStoryIds} placeholder="Enter Story Ids" />
+        </FormGroup>
+        <Button onClick={onFilter}>Filter</Button>
+      </div>
+      <CharacterList filters={filters} />
+    </div>
   );
 }
 

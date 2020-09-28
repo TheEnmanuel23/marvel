@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { PaginationInput } from "./globalTypes";
+import { CharacterFiltersInput, PaginationInput } from "./globalTypes";
 
 // ====================================================
 // GraphQL query operation: GetCharacters
@@ -32,5 +32,6 @@ export interface GetCharacters {
 }
 
 export interface GetCharactersVariables {
+  filter?: CharacterFiltersInput | null;
   pagination?: PaginationInput | null;
 }

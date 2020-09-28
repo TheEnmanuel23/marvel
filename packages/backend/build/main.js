@@ -282,8 +282,8 @@ __webpack_require__.r(__webpack_exports__);
 
   input CharacterFiltersInput {
     nameStartsWith: String
-    comics: [ID]
-    stories: [ID]
+    comics: String # 1,2,3,4,5
+    stories: String # 1,2,3,4,5
   }
 
   type CharacterConnection implements PaginationResponse {

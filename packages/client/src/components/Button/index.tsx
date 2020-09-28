@@ -1,5 +1,5 @@
 import React from "react";
-import { Wrapper, Link } from "./styles";
+import { Wrapper, Link, StyledButton } from "./styles";
 import { Arrow } from "../Icons";
 export interface ButtonLinkProps {
   to: string;
@@ -14,3 +14,5 @@ export const ButtonLink = ({ to, children }: ButtonLinkProps) => (
     </Link>
   </Wrapper>
 );
+
+export const Button = StyledButton;
