@@ -8,8 +8,19 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: relative;
 
   h2 {
     text-align: center;
   }
+`;
+
+export const Badge = styled.span`
+  background: #11ff30;
+  text-align: center;
+  border-radius: 8px;
+  position: absolute;
+  padding: 5px;
+  right: 20px;
+  top: 20px;
 `;

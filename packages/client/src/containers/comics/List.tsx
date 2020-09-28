@@ -90,6 +90,7 @@ function ComicList({ filters }: Filters) {
             name={`${comic.issueNumber} - ${comic.title}`}
             id={comic.id}
             to={`/comics/${comic.id}`}
+            badge={comic.format || ""}
           />
         ))}
       </InfiniteScroll>

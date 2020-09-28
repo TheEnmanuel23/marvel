@@ -90,6 +90,7 @@ function CharacterList({ filters }: Filters) {
             name={hero.name}
             id={hero.id}
             to={`/characters/${hero.id}`}
+            body={<p>{hero.description}</p>}
           />
         ))}
       </InfiniteScroll>
