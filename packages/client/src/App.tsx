@@ -4,7 +4,8 @@ import { Switch, Route, Link, useLocation } from "react-router-dom";
 // @components
 import { Layout } from "./components/Layout";
 import { Navbar, NavbarItem } from "./components/Navbar";
-import { Character } from "./utilities/asyncModules";
+import { Characters } from "./utilities/asyncModules";
+import { Comics } from "./utilities/asyncModules";
 
 function App() {
   const location = useLocation();
@@ -24,8 +25,8 @@ function App() {
         </NavbarItem>
       </Navbar>
       <Switch>
-        <Route path="/comics" component={() => <p>Detalle</p>} />
-        <Route path="/" component={Character} />
+        <Route path="/comics" component={Comics} />
+        <Route path="/" component={Characters} />
       </Switch>
     </Layout>
   );

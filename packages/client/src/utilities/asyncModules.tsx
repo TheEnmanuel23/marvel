@@ -1,12 +1,21 @@
 import React, { Suspense } from "react";
 import { Loader } from "../components/Loader";
 
-export const CharacterLazy = React.lazy(() =>
-  import("../containers/character")
+export const CharactersLazy = React.lazy(() =>
+  import("../containers/characters")
 );
+export const ComicsLazy = React.lazy(() => import("../containers/comics"));
 
-export const Character = () => (
-  <Suspense fallback={<Loader loading />}>
-    <CharacterLazy />
-  </Suspense>
-);
+const loadModule = (
+  Component: React.LazyExoticComponent<() => JSX.Element>
+) => {
+  return (
+    <Suspense fallback={<Loader loading />}>
+      <Component />
+    </Suspense>
+  );
+};
+
+export const Characters = () => loadModule(CharactersLazy);
+
+export const Comics = () => loadModule(ComicsLazy);

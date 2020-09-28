@@ -8,21 +8,21 @@ import { HeroCard } from "../../components/HeroCard";
 import { Grid } from "../../components/Grid";
 import { Loader } from "../../components/Loader";
 // @types
+
 import {
-  GetCharacters,
-  GetCharactersVariables,
-  GetCharacters_characters_results,
-} from "../../@types/graphql/GetCharacters";
+  GetComics,
+  GetComicsVariables,
+  GetComics_comics_results,
+} from "../../@types/graphql/GetComics";
 // @graphql
-import { GET_CHARACTERS } from "../../graphql/character";
+import { LIMIT } from "../../utilities/constants";
+import { GET_COMICS } from "../../graphql/comic";
 
-const LIMIT = 5;
-
-function Character() {
+function Comics() {
   const { loading, error, data, fetchMore } = useQuery<
-    GetCharacters,
-    GetCharactersVariables
-  >(GET_CHARACTERS, {
+    GetComics,
+    GetComicsVariables
+  >(GET_COMICS, {
     variables: {
       pagination: {
         limit: LIMIT,
@@ -38,26 +38,26 @@ function Character() {
     return <p>Error</p>;
   }
 
-  const characters = get("characters.results", data);
+  const comics = get("comics.results", data);
 
   const loadMore = () => {
     fetchMore({
       variables: {
         pagination: {
-          offset: characters.length,
+          offset: comics.length,
           limit: LIMIT,
         },
       },
-      updateQuery: (prev: GetCharacters, { fetchMoreResult }) => {
+      updateQuery: (prev: GetComics, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;
 
-        const prevCharacters = get("characters.results", prev) || [];
-        const newCharacters = get("characters.results", fetchMoreResult) || [];
+        const prevComics = get("comics.results", prev) || [];
+        const newComics = get("comics.results", fetchMoreResult) || [];
 
         const data = {
-          characters: {
-            ...fetchMoreResult.characters,
-            results: [...prevCharacters, ...newCharacters],
+          comics: {
+            ...fetchMoreResult.comics,
+            results: [...prevComics, ...newComics],
           },
         } as any;
 
@@ -69,17 +69,17 @@ function Character() {
   return (
     <Grid>
       <InfiniteScroll
-        dataLength={characters.length}
+        dataLength={comics.length}
         next={loadMore}
         hasMore={true}
         loader={<p>Loading more...</p>}
       >
-        {characters.map((hero: GetCharacters_characters_results) => (
+        {comics.map((comic: GetComics_comics_results) => (
           <HeroCard
-            key={hero.id}
-            thumbnail={hero.thumbnail || ""}
-            name={hero.name}
-            id={hero.id}
+            key={comic.id}
+            thumbnail={comic.thumbnail || ""}
+            name={comic.title}
+            id={comic.id}
           />
         ))}
       </InfiniteScroll>
@@ -87,4 +87,4 @@ function Character() {
   );
 }
 
-export default Character;
+export default Comics;
