@@ -5,6 +5,7 @@ export const StyledNav = styled.nav`
   height: 60px;
   width: 100%;
   border-radius: 10px;
+  margin-bottom: 50px;
 
   ul {
     height: 100%;

@@ -5,6 +5,6 @@ export const Layout = styled.div`
   margin: 0 auto;
 
   @media only screen and (min-width: 1024px) {
-    width: 70%;
+    width: 80%;
   }
 `;
