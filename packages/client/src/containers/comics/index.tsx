@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import get from "lodash/fp/get";
 import InfiniteScroll from "react-infinite-scroll-component";
 // @components
-import { HeroCard } from "../../components/HeroCard";
+import { Card } from "../../components/Card";
 import { Grid } from "../../components/Grid";
 import { Loader } from "../../components/Loader";
 // @types
@@ -75,11 +75,12 @@ function Comics() {
         loader={<p>Loading more...</p>}
       >
         {comics.map((comic: GetComics_comics_results) => (
-          <HeroCard
+          <Card
             key={comic.id}
             thumbnail={comic.thumbnail || ""}
             name={comic.title}
             id={comic.id}
+            to={`/comics/${comic.id}`}
           />
         ))}
       </InfiniteScroll>

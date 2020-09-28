@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import get from "lodash/fp/get";
 import InfiniteScroll from "react-infinite-scroll-component";
 // @components
-import { HeroCard } from "../../components/HeroCard";
+import { Card } from "../../components/Card";
 import { Grid } from "../../components/Grid";
 import { Loader } from "../../components/Loader";
 // @types
@@ -74,11 +74,12 @@ function Stories() {
         loader={<p>Loading more...</p>}
       >
         {stories.map((story: GetStories_stories_results) => (
-          <HeroCard
+          <Card
             key={story.id}
             thumbnail={story.thumbnail || ""}
             name={story.title}
             id={story.id}
+            to={`/stories/${story.id}`}
           />
         ))}
       </InfiniteScroll>

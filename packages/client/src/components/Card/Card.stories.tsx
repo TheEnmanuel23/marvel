@@ -1,16 +1,17 @@
 import React from "react";
 
-import { HeroCard } from ".";
+import { Card } from ".";
 
 export default {
-  title: "Components/HeroCard",
-  component: HeroCard,
+  title: "Components/Card",
+  component: Card,
 };
 
 export const Default = () => (
-  <HeroCard
+  <Card
     thumbnail="http://i.annihil.us/u/prod/marvel/i/mg/d/03/531769834b15f.jpg"
     name="Ancient One (Ultimate)"
     id={1}
+    to={`/characters/${1}`}
   />
 );
