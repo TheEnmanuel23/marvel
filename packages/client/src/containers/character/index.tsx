@@ -1,10 +1,12 @@
 // @vendors
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
-import { Loader } from "../../components/Loader";
+import get from "lodash/fp/get";
+import InfiniteScroll from "react-infinite-scroll-component";
+// @components
 import { HeroCard } from "../../components/HeroCard";
 import { Grid } from "../../components/Grid";
-import get from "lodash/fp/get";
+import { Loader } from "../../components/Loader";
 // @types
 import {
   GetCharacters,
@@ -14,14 +16,16 @@ import {
 // @graphql
 import { GET_CHARACTERS } from "../../graphql/character";
 
+const LIMIT = 5;
+
 function Character() {
-  const { loading, error, data } = useQuery<
+  const { loading, error, data, fetchMore } = useQuery<
     GetCharacters,
     GetCharactersVariables
   >(GET_CHARACTERS, {
     variables: {
       pagination: {
-        offset: 20,
+        limit: LIMIT,
       },
     },
   });
@@ -36,16 +40,49 @@ function Character() {
 
   const characters = get("characters.results", data);
 
+  const loadMore = () => {
+    fetchMore({
+      variables: {
+        pagination: {
+          offset: characters.length,
+          limit: LIMIT,
+        },
+      },
+      updateQuery: (prev: GetCharacters, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+
+        const prevCharacters = get("characters.results", prev) || [];
+        const newCharacters = get("characters.results", fetchMoreResult) || [];
+
+        const data = {
+          characters: {
+            ...fetchMoreResult.characters,
+            results: [...prevCharacters, ...newCharacters],
+          },
+        } as any;
+
+        return data;
+      },
+    });
+  };
+
   return (
     <Grid>
-      {characters.map((hero: GetCharacters_characters_results) => (
-        <HeroCard
-          key={hero.id}
-          thumbnail={hero.thumbnail || ""}
-          name={hero.name}
-          id={hero.id}
-        />
-      ))}
+      <InfiniteScroll
+        dataLength={characters.length}
+        next={loadMore}
+        hasMore={true}
+        loader={<p>Loading more...</p>}
+      >
+        {characters.map((hero: GetCharacters_characters_results) => (
+          <HeroCard
+            key={hero.id}
+            thumbnail={hero.thumbnail || ""}
+            name={hero.name}
+            id={hero.id}
+          />
+        ))}
+      </InfiniteScroll>
     </Grid>
   );
 }

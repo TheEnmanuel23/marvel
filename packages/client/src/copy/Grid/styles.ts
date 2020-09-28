@@ -1,7 +1,15 @@
 import styled from "styled-components";
 
 export const Grid = styled.div`
-  .infinite-scroll-component {
+  height: 100vh;
+  width: 100%;
+  margin: 0 auto;
+
+  @media only screen and (min-width: 700px) {
+    width: 600px;
+  }
+
+  .other {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-gap: 20px;
