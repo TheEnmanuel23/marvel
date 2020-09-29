@@ -10,6 +10,7 @@ import {
   ComicDetail,
   Comics,
   Stories,
+  StoryDetail,
 } from "./utilities/asyncModules";
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       <Switch>
         <Route path="/characters/:id" component={CharacterDetail} />
         <Route path="/comics/:id" component={ComicDetail} />
+        <Route path="/stories/:id" component={StoryDetail} />
         <Route path="/stories" component={Stories} />
         <Route path="/comics" component={Comics} />
         <Route path="/" component={Characters} />

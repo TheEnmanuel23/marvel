@@ -13,9 +13,13 @@ export const CharacterDetailLazy = React.lazy(() =>
 export const ComicDetailLazy = React.lazy(() =>
   import("../containers/comics/Detail")
 );
+export const StoryDetailLazy = React.lazy(() =>
+  import("../containers/stories/Detail")
+);
 
 export const Characters = () => loadModule(CharactersLazy);
 export const Comics = () => loadModule(ComicsLazy);
 export const Stories = () => loadModule(StoriesLazy);
 export const CharacterDetail = () => loadModule(CharacterDetailLazy);
 export const ComicDetail = () => loadModule(ComicDetailLazy);
+export const StoryDetail = () => loadModule(StoryDetailLazy);

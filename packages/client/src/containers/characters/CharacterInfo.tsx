@@ -15,7 +15,7 @@ import { Loader } from "../../components/Loader";
 import { Wrapper, Picture } from "./styles";
 
 const CharacterInfo = ({ id }: { id: string }) => {
-  let { path, url } = useRouteMatch();
+  let { url } = useRouteMatch();
   const location = useLocation();
   const pathname = location.pathname;
 

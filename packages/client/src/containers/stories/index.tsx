@@ -15,13 +15,13 @@ import {
 } from "../../@types/graphql/GetStories";
 // @graphql
 import { LIMIT } from "../../utilities/constants";
-import { GET_STORY } from "../../graphql/story";
+import { GET_STORIES } from "../../graphql/story";
 
 function Stories() {
   const { loading, error, data, fetchMore } = useQuery<
     GetStories,
     GetStoriesVariables
-  >(GET_STORY, {
+  >(GET_STORIES, {
     variables: {
       pagination: {
         limit: LIMIT,
