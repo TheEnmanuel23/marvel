@@ -1,17 +1,10 @@
 import gql from "graphql-tag";
-import { COMIC_FRAGMENT } from "./comic";
+import {
+  COMIC_FRAGMENT,
+  STORY_FRAGMENT,
+  CHARACTER_FRAGMENT,
+} from "./fragments";
 import { PAGINATION_FRAGMENT } from "./pagination";
-import { STORY_FRAGMENT } from "./story";
-
-export const CHARACTER_FRAGMENT = gql`
-  fragment CharacterFragment on Character {
-    id
-    name
-    thumbnail
-    description
-    resourceURI
-  }
-`;
 
 export const GET_CHARACTERS = gql`
   query GetCharacters(

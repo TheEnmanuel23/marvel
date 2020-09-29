@@ -10,8 +10,12 @@ export const StoriesLazy = React.lazy(() => import("../containers/stories"));
 export const CharacterDetailLazy = React.lazy(() =>
   import("../containers/characters/Detail")
 );
+export const ComicDetailLazy = React.lazy(() =>
+  import("../containers/comics/Detail")
+);
 
 export const Characters = () => loadModule(CharactersLazy);
 export const Comics = () => loadModule(ComicsLazy);
 export const Stories = () => loadModule(StoriesLazy);
 export const CharacterDetail = () => loadModule(CharacterDetailLazy);
+export const ComicDetail = () => loadModule(ComicDetailLazy);

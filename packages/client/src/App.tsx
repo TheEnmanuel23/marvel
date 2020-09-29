@@ -7,6 +7,7 @@ import { Navbar, NavbarItem } from "./components/Navbar";
 import {
   CharacterDetail,
   Characters,
+  ComicDetail,
   Comics,
   Stories,
 } from "./utilities/asyncModules";
@@ -30,6 +31,7 @@ function App() {
       </Navbar>
       <Switch>
         <Route path="/characters/:id" component={CharacterDetail} />
+        <Route path="/comics/:id" component={ComicDetail} />
         <Route path="/stories" component={Stories} />
         <Route path="/comics" component={Comics} />
         <Route path="/" component={Characters} />

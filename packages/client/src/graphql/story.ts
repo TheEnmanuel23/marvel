@@ -1,14 +1,6 @@
 import gql from "graphql-tag";
 import { PAGINATION_FRAGMENT } from "./pagination";
-
-export const STORY_FRAGMENT = gql`
-  fragment StoryFragment on Story {
-    id
-    title
-    thumbnail
-    description
-  }
-`;
+import { STORY_FRAGMENT } from "./fragments";
 
 export const GET_STORY = gql`
   query GetStories($pagination: PaginationInput) {
