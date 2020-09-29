@@ -15,7 +15,8 @@
     "build": "run-s build:backend build:client",
     "codegen": "yarn workspace @marvel/client codegen",
     "generate-schema": "yarn workspace @marvel/client generate-schema",
-    "storybook": "yarn workspace @marvel/client storybook"
+    "storybook": "yarn workspace @marvel/client storybook",
+    "build-storybook": "yarn workspace @marvel/client build-storybook"
   },
   "dependencies": {
     "npm-run-all": "^4.1.5"
