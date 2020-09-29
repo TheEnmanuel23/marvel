@@ -1,7 +1,7 @@
 // @vendors
 import React, { useState } from "react";
 // @components
-import CharacterList from "./List";
+import CharacterList from "./CharacterList";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { Tag } from "../../components/Tag";
