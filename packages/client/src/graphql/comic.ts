@@ -7,8 +7,12 @@ import {
 import { PAGINATION_FRAGMENT } from "./pagination";
 
 export const GET_COMICS = gql`
-  query GetComics($filter: ComicFiltersInput, $pagination: PaginationInput) {
-    comics(filter: $filter, pagination: $pagination) {
+  query GetComics(
+    $filter: ComicFiltersInput
+    $pagination: PaginationInput
+    $orderBy: ComicSort
+  ) {
+    comics(filter: $filter, pagination: $pagination, orderBy: $orderBy) {
       ...PaginationFragment
       results {
         ...ComicFragment

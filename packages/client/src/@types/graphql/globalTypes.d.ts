@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum ComicSort {
+  ISSUE_NUMBER = "ISSUE_NUMBER",
+  TITLE = "TITLE",
+}
+
 export enum IssueFormat {
   COMIC = "COMIC",
   DIGEST = "DIGEST",

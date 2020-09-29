@@ -16,7 +16,10 @@ import {
 // @graphql
 import { LIMIT } from "../../utilities/constants";
 import { GET_COMICS } from "../../graphql/comic";
-import { ComicFiltersInput } from "../../@types/graphql/globalTypes";
+import {
+  ComicFiltersInput,
+  ComicSort,
+} from "../../@types/graphql/globalTypes.d";
 
 interface Filters {
   filters?: ComicFiltersInput;
@@ -32,6 +35,7 @@ function ComicList({ filters }: Filters) {
         limit: LIMIT,
       },
       filter: filters,
+      orderBy: ComicSort.ISSUE_NUMBER,
     },
   });
 
@@ -52,6 +56,7 @@ function ComicList({ filters }: Filters) {
           offset: comics.length,
           limit: LIMIT,
         },
+        orderBy: ComicSort.ISSUE_NUMBER,
       },
       updateQuery: (prev: GetComics, { fetchMoreResult }) => {
         if (!fetchMoreResult) return prev;

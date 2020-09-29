@@ -1,7 +1,7 @@
 // @vendors
 import React, { useState } from "react";
 // @components
-import ComicList from "./List";
+import ComicList from "./ComicList";
 import { FormGroup } from "../../components/FormGroup";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
