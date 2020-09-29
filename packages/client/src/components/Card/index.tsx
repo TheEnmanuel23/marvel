@@ -1,6 +1,7 @@
 import React from "react";
 import { Wrapper, Badge } from "./styles";
 import { ButtonLink } from "../Button";
+import { Link } from "react-router-dom";
 
 export interface CardProps {
   thumbnail: string;
@@ -20,7 +21,7 @@ export const Card = ({ thumbnail, name, id, to, body, badge }: CardProps) => {
         <h2>{name}</h2>
       </div>
       {body}
-      <ButtonLink to={to}>Go #{id}</ButtonLink>
+      <ButtonLink component={Link} to={to} label={`Go #${id}`} />
     </Wrapper>
   );
 };

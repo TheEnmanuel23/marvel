@@ -7,4 +7,4 @@ export default {
   component: ButtonLink,
 };
 
-export const Default = () => <ButtonLink to="/comics">More</ButtonLink>;
+export const Default = () => <ButtonLink href="/comics" label="More" />;
