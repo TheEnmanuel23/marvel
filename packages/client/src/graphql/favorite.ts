@@ -1,21 +1,8 @@
 import gql from "graphql-tag";
 
 export const typeDefs = gql`
-  input ComicInput {
+  input FavoriteInput {
     id: ID
-    title: String
-    thumbnail: String
-    issueNumber: Float
-    format: String
-    isFavorite: Boolean
-  }
-
-  input HeroInput {
-    id: ID
-    name: String
-    thumbnail: String
-    description: String
-    resourceURI: String
     isFavorite: Boolean
   }
 `;
@@ -46,8 +33,20 @@ export const GET_FAVORITE_HEROES = gql`
   }
 `;
 
+export const GET_FAVORITE_STORIES = gql`
+  query GetFavoriteStories {
+    favoriteStories @client {
+      id
+      title
+      thumbnail
+      description
+      isFavorite
+    }
+  }
+`;
+
 export const TOGGLE_FAVORITE_COMIC = gql`
-  mutation ToggleFavoriteComic($comic: ComicInput) {
+  mutation ToggleFavoriteComic($comic: FavoriteInput) {
     toggleFavoriteComics(comic: $comic) @client {
       id
       isFavorite
@@ -56,8 +55,17 @@ export const TOGGLE_FAVORITE_COMIC = gql`
 `;
 
 export const TOGGLE_FAVORITE_HERO = gql`
-  mutation ToggleFavoriteHero($hero: HeroInput) {
+  mutation ToggleFavoriteHero($hero: FavoriteInput) {
     toggleFavoriteHeroes(hero: $hero) @client {
+      id
+      isFavorite
+    }
+  }
+`;
+
+export const TOGGLE_FAVORITE_STORY = gql`
+  mutation ToggleFavoriteStory($story: FavoriteInput) {
+    toggleFavoriteStories(story: $story) @client {
       id
       isFavorite
     }

@@ -28,5 +28,6 @@ export const STORY_FRAGMENT = gql`
     title
     thumbnail
     description
+    isFavorite @client
   }
 `;

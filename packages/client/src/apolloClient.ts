@@ -11,6 +11,7 @@ import introspectionQueryResultData from "./utilities/graphqlSchema.json";
 import {
   GET_FAVORITE_COMICS,
   GET_FAVORITE_HEROES,
+  GET_FAVORITE_STORIES,
   typeDefs,
 } from "./graphql/favorite";
 import { toggleFavorite } from "./utilities/toggleFavorite";
@@ -46,6 +47,8 @@ function createApolloClient() {
         JSON.parse(localStorage.getItem("favoriteComics") || "[]") || [],
       favoriteHeroes:
         JSON.parse(localStorage.getItem("favoriteHeroes") || "[]") || [],
+      favoriteStories:
+        JSON.parse(localStorage.getItem("favoriteStories") || "[]") || [],
     },
   });
 
@@ -66,6 +69,12 @@ function createApolloClient() {
           return !!list.favoriteHeroes.find((fav: any) => fav.id === hero.id);
         },
       },
+      Story: {
+        isFavorite: (story, args, { cache }) => {
+          const list = cache.readQuery({ query: GET_FAVORITE_STORIES });
+          return !!list.favoriteStories.find((fav: any) => fav.id === story.id);
+        },
+      },
       Mutation: {
         toggleFavoriteComics: (_root, { comic }, { cache }) => {
           const newComic = toggleFavorite({
@@ -83,6 +92,16 @@ function createApolloClient() {
             entity: hero,
             cache,
             entityName: "favoriteHeroes",
+          });
+
+          return newHero;
+        },
+        toggleFavoriteStories: (_root, { story }, { cache }) => {
+          const newHero = toggleFavorite({
+            query: GET_FAVORITE_STORIES,
+            entity: story,
+            cache,
+            entityName: "favoriteStories",
           });
 
           return newHero;

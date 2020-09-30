@@ -11,11 +11,12 @@ import { Loader } from "../../components/Loader";
 import {
   GetStories,
   GetStoriesVariables,
-  GetStories_stories_results,
 } from "../../@types/graphql/GetStories";
+import { Story } from "../../@types/customTypes";
 // @graphql
 import { LIMIT } from "../../utilities/constants";
 import { GET_STORIES } from "../../graphql/story";
+import { StoryCard } from "../../components/StoryCard";
 
 function Stories() {
   const { loading, error, data, fetchMore } = useQuery<
@@ -73,14 +74,8 @@ function Stories() {
         hasMore={true}
         loader={<p>Loading more...</p>}
       >
-        {stories.map((story: GetStories_stories_results) => (
-          <Card
-            key={story.id}
-            thumbnail={story.thumbnail || ""}
-            name={story.title}
-            id={story.id}
-            to={`/stories/${story.id}`}
-          />
+        {stories.map((story: Story) => (
+          <StoryCard story={story} />
         ))}
       </InfiniteScroll>
     </Grid>
