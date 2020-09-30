@@ -2,28 +2,17 @@
 import React from "react";
 import { useQuery } from "@apollo/react-hooks";
 import get from "lodash/fp/get";
-import { useParams } from "react-router-dom";
 // @graphql
-import { GET_STORIES_BY_COMIC } from "../../graphql/comic";
+import { GET_FAVORITE_STORIES } from "../../graphql/favorite";
 // @components
 import { Loader } from "../../components/Loader";
 import { Grid } from "../../components/Grid";
 import { StoryCard } from "../../components/StoryCard";
 // @types
-import {
-  GetStoriesByComic,
-  GetStoriesByComicVariables,
-} from "../../@types/graphql/GetStoriesByComic";
 import { Story } from "../../@types/customTypes";
 
 const Stories = () => {
-  const { id } = useParams();
-  const { loading, error, data } = useQuery<
-    GetStoriesByComic,
-    GetStoriesByComicVariables
-  >(GET_STORIES_BY_COMIC, {
-    variables: { id },
-  });
+  const { loading, error, data } = useQuery(GET_FAVORITE_STORIES);
 
   if (loading) {
     return <Loader loading />;
@@ -33,7 +22,7 @@ const Stories = () => {
     return <p>Error</p>;
   }
 
-  const stories = get("comic.stories", data);
+  const stories = get("favoriteStories", data);
 
   return (
     <Grid>

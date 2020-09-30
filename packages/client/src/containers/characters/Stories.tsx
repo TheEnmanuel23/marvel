@@ -8,13 +8,11 @@ import { GET_STORIES_BY_CHARACTER } from "../../graphql/character";
 // @components
 import { Loader } from "../../components/Loader";
 import { Grid } from "../../components/Grid";
-import { Card } from "../../components/Card";
+import { StoryCard } from "../../components/StoryCard";
 // @types
-import {
-  GetStoriesVariables,
-  GetStories_stories_results,
-} from "../../@types/graphql/GetStories";
+import { GetStoriesVariables } from "../../@types/graphql/GetStories";
 import { GetStoriesByCharacterVariables } from "../../@types/graphql/GetStoriesByCharacter";
+import { Story } from "../../@types/customTypes";
 
 const Stories = () => {
   const { id } = useParams();
@@ -37,14 +35,8 @@ const Stories = () => {
 
   return (
     <Grid>
-      {stories.map((story: GetStories_stories_results) => (
-        <Card
-          key={story.id}
-          thumbnail={story.thumbnail || ""}
-          name={story.title}
-          id={story.id}
-          to={`/stories/${story.id}`}
-        />
+      {stories.map((story: Story) => (
+        <StoryCard story={story} />
       ))}
     </Grid>
   );

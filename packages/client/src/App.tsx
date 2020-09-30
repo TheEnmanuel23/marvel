@@ -4,6 +4,7 @@ import { Switch, Route, Link, useLocation } from "react-router-dom";
 // @components
 import { Layout } from "./components/Layout";
 import { Navbar, NavbarItem } from "./components/Navbar";
+import Favorites from "./containers/favorites";
 import {
   CharacterDetail,
   Characters,
@@ -29,6 +30,9 @@ function App() {
         <NavbarItem active={pathname === "/stories"}>
           <Link to="/stories">Stories</Link>
         </NavbarItem>
+        <NavbarItem active={pathname === "/favorites"}>
+          <Link to="/favorites">Favorites</Link>
+        </NavbarItem>
       </Navbar>
       <Switch>
         <Route path="/characters/:id" component={CharacterDetail} />
@@ -36,6 +40,7 @@ function App() {
         <Route path="/stories/:id" component={StoryDetail} />
         <Route path="/stories" component={Stories} />
         <Route path="/comics" component={Comics} />
+        <Route path="/favorites" component={Favorites} />
         <Route path="/" component={Characters} />
       </Switch>
     </Layout>
