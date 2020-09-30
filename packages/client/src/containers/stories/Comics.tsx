@@ -14,7 +14,8 @@ import {
   GetComicsByStory,
   GetComicsByStoryVariables,
 } from "../../@types/graphql/GetComicsByStory";
-import { GetComics_comics_results } from "../../@types/graphql/GetComics";
+import { ComicCard } from "../../components/ComicCard";
+import { Comic } from "../../@types/customTypes";
 
 const Comics = () => {
   const { id } = useParams();
@@ -37,15 +38,8 @@ const Comics = () => {
 
   return (
     <Grid>
-      {comics.map((comic: GetComics_comics_results) => (
-        <Card
-          key={comic.id}
-          thumbnail={comic.thumbnail || ""}
-          name={`${comic.issueNumber} - ${comic.title}`}
-          id={comic.id}
-          to={`/comics/${comic.id}`}
-          badge={comic.format || ""}
-        />
+      {comics.map((comic: Comic) => (
+        <ComicCard comic={comic} />
       ))}
     </Grid>
   );

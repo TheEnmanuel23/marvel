@@ -19,8 +19,11 @@ export const Badge = styled.span`
   background: #11ff30;
   text-align: center;
   border-radius: 8px;
-  position: absolute;
   padding: 5px;
-  right: 20px;
-  top: 20px;
+`;
+
+export const CardHeader = styled.div`
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
 `;

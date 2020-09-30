@@ -7,6 +7,7 @@ export const COMIC_FRAGMENT = gql`
     thumbnail
     issueNumber
     format
+    isFavorite @client
   }
 `;
 

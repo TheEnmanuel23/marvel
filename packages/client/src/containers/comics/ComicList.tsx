@@ -8,11 +8,8 @@ import { Card } from "../../components/Card";
 import { Grid } from "../../components/Grid";
 import { Loader } from "../../components/Loader";
 // @types
-import {
-  GetComics,
-  GetComicsVariables,
-  GetComics_comics_results,
-} from "../../@types/graphql/GetComics";
+import { GetComics, GetComicsVariables } from "../../@types/graphql/GetComics";
+import { Comic } from "../../@types/customTypes";
 // @graphql
 import { LIMIT } from "../../utilities/constants";
 import { GET_COMICS } from "../../graphql/comic";
@@ -20,6 +17,7 @@ import {
   ComicFiltersInput,
   ComicSort,
 } from "../../@types/graphql/globalTypes.d";
+import { ComicCard } from "../../components/ComicCard";
 
 interface Filters {
   filters?: ComicFiltersInput;
@@ -88,15 +86,8 @@ function ComicList({ filters }: Filters) {
         hasMore={true}
         loader={<p>Loading more...</p>}
       >
-        {comics.map((comic: GetComics_comics_results) => (
-          <Card
-            key={comic.id}
-            thumbnail={comic.thumbnail || ""}
-            name={`${comic.issueNumber} - ${comic.title}`}
-            id={comic.id}
-            to={`/comics/${comic.id}`}
-            badge={comic.format || ""}
-          />
+        {comics.map((comic: Comic) => (
+          <ComicCard comic={comic} />
         ))}
       </InfiniteScroll>
     </Grid>

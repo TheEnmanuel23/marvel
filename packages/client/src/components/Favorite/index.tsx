@@ -1,12 +1,23 @@
 import React from "react";
-import { Star } from "../Icons";
+import { StarMark, StarUnmark } from "../Icons";
 import { Wrapper } from "./styles";
 
-export const Favorite = () => {
+export const Favorite = ({
+  mark = false,
+  onChange,
+  className,
+}: {
+  mark?: boolean;
+  onChange?: () => void;
+  className?: string;
+}) => {
+  const Icon = mark ? StarMark : StarUnmark;
+  const label = mark ? "Unmark" : "Mark as favorite";
+
   return (
-    <Wrapper>
-      <Star />
-      <span>Mark as favorite</span>
+    <Wrapper onClick={onChange} className={className}>
+      <Icon />
+      <span>{label}</span>
     </Wrapper>
   );
 };
