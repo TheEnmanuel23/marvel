@@ -3,16 +3,12 @@ version: "3"
 services:
   marvel_api:
     container_name: marvel_api
-    build:
-      context: ./packages/backend
+    image: theenmanuel23/marvel-api
     ports:
       - "4000:4000"
   marvel_ui:
     container_name: marvel_ui
-    build:
-      context: ./packages/client
-      args:
-        REACT_APP_API: ${REACT_APP_API}
+    image: theenmanuel23/marvel-client
     ports:
       - "3000:3000"
     volumes:
