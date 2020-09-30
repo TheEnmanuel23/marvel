@@ -1,23 +1,11 @@
 import { useMutation } from "@apollo/react-hooks";
 import React from "react";
 import { Comic } from "../../@types/customTypes";
-import {
-  ADD_FAVORITE_COMIC,
-  REMOVE_FAVORITE_COMIC,
-} from "../../graphql/favorite";
+import { TOGGLE_FAVORITE_COMIC } from "../../graphql/favorite";
 import { Card } from "../Card";
 
 export const ComicCard = ({ comic }: { comic: Comic }) => {
-  const [addFavorite] = useMutation(ADD_FAVORITE_COMIC);
-  const [removeFavorite] = useMutation(REMOVE_FAVORITE_COMIC);
-
-  const toggleFavorite = () => {
-    if (comic.isFavorite) {
-      return removeFavorite({ variables: { comic: comic } });
-    }
-
-    addFavorite({ variables: { comic } });
-  };
+  const [toggleFavorite] = useMutation(TOGGLE_FAVORITE_COMIC);
 
   return (
     <Card
@@ -28,7 +16,7 @@ export const ComicCard = ({ comic }: { comic: Comic }) => {
       to={`/comics/${comic.id}`}
       badge={comic.format || ""}
       marked={comic.isFavorite}
-      onToggleFavorite={toggleFavorite}
+      onToggleFavorite={() => toggleFavorite({ variables: { comic } })}
     />
   );
 };

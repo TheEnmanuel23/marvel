@@ -9,6 +9,7 @@ import { ApolloLink } from "apollo-link";
 import apolloLogger from "apollo-link-logger";
 import introspectionQueryResultData from "./utilities/graphqlSchema.json";
 import { GET_FAVORITE_COMICS, typeDefs } from "./graphql/favorite";
+import { toggleFavorite } from "./utilities/toggleFavorite";
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
   // @ts-ignore
@@ -54,38 +55,13 @@ function createApolloClient() {
         },
       },
       Mutation: {
-        addFavoriteComics: (_root, { comic }, { cache }) => {
-          const previous = cache.readQuery({ query: GET_FAVORITE_COMICS });
-          const newComic = { ...comic, isFavorite: true };
-          const favoriteComics = [...previous.favoriteComics, newComic];
-          cache.writeQuery({
+        toggleFavoriteComics: (_root, { comic }, { cache }) => {
+          const newComic = toggleFavorite({
             query: GET_FAVORITE_COMICS,
-            data: { favoriteComics },
+            entity: comic,
+            cache,
+            entityName: "favoriteComics",
           });
-
-          localStorage.setItem(
-            "favoriteComics",
-            JSON.stringify(favoriteComics)
-          );
-
-          return newComic;
-        },
-        removeFavoriteComics: (_root, { comic }, { cache }) => {
-          const previous = cache.readQuery({ query: GET_FAVORITE_COMICS });
-          const newComic = { ...comic, isFavorite: false };
-          const favoriteComics = previous.favoriteComics.filter(
-            (fav: any) => fav.id !== newComic.id
-          );
-
-          cache.writeQuery({
-            query: GET_FAVORITE_COMICS,
-            data: { favoriteComics },
-          });
-
-          localStorage.setItem(
-            "favoriteComics",
-            JSON.stringify(favoriteComics)
-          );
 
           return newComic;
         },

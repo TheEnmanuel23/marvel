@@ -24,18 +24,9 @@ export const GET_FAVORITE_COMICS = gql`
   }
 `;
 
-export const ADD_FAVORITE_COMIC = gql`
-  mutation AddFavoriteComic($comic: ComicInput) {
-    addFavoriteComics(comic: $comic) @client {
-      id
-      isFavorite
-    }
-  }
-`;
-
-export const REMOVE_FAVORITE_COMIC = gql`
-  mutation RemoveFavoriteComic($comic: ComicInput) {
-    removeFavoriteComics(comic: $comic) @client {
+export const TOGGLE_FAVORITE_COMIC = gql`
+  mutation ToggleFavoriteComic($comic: ComicInput) {
+    toggleFavoriteComics(comic: $comic) @client {
       id
       isFavorite
     }
