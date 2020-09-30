@@ -18,6 +18,7 @@ export const CHARACTER_FRAGMENT = gql`
     thumbnail
     description
     resourceURI
+    isFavorite @client
   }
 `;
 

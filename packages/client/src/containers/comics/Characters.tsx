@@ -8,13 +8,13 @@ import { GET_CHARACTERS_BY_COMIC } from "../../graphql/comic";
 // @components
 import { Loader } from "../../components/Loader";
 import { Grid } from "../../components/Grid";
-import { Card } from "../../components/Card";
+import { HeroCard } from "../../components/HeroCard";
 // @types
 import {
   GetCharactersByComic,
   GetCharactersByComicVariables,
 } from "../../@types/graphql/GetCharactersByComic";
-import { GetCharacters_characters_results } from "../../@types/graphql/GetCharacters";
+import { Hero } from "../../@types/customTypes";
 
 const Characters = () => {
   const { id } = useParams();
@@ -37,15 +37,8 @@ const Characters = () => {
 
   return (
     <Grid>
-      {characters.map((hero: GetCharacters_characters_results) => (
-        <Card
-          key={hero.id}
-          thumbnail={hero.thumbnail || ""}
-          name={hero.name}
-          id={hero.id}
-          to={`/characters/${hero.id}`}
-          body={<p>{hero.description}</p>}
-        />
+      {characters.map((hero: Hero) => (
+        <HeroCard hero={hero} />
       ))}
     </Grid>
   );

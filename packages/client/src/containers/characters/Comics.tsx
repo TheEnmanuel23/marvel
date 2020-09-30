@@ -8,7 +8,6 @@ import { GET_COMICS_BY_CHARACTER } from "../../graphql/character";
 // @components
 import { Loader } from "../../components/Loader";
 import { Grid } from "../../components/Grid";
-import { Card } from "../../components/Card";
 // @types
 import {
   GetComicsByCharacter,

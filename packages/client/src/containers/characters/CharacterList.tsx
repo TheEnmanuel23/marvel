@@ -11,12 +11,13 @@ import { Loader } from "../../components/Loader";
 import {
   GetCharacters,
   GetCharactersVariables,
-  GetCharacters_characters_results,
 } from "../../@types/graphql/GetCharacters";
+import { CharacterFiltersInput } from "../../@types/graphql/globalTypes";
+import { Hero } from "../../@types/customTypes";
 // @graphql
 import { GET_CHARACTERS } from "../../graphql/character";
 import { LIMIT } from "../../utilities/constants";
-import { CharacterFiltersInput } from "../../@types/graphql/globalTypes";
+import { HeroCard } from "../../components/HeroCard";
 
 interface Filters {
   filters?: CharacterFiltersInput;
@@ -83,15 +84,8 @@ function CharacterList({ filters }: Filters) {
         hasMore={true}
         loader={<p>Loading more...</p>}
       >
-        {characters.map((hero: GetCharacters_characters_results) => (
-          <Card
-            key={hero.id}
-            thumbnail={hero.thumbnail || ""}
-            name={hero.name}
-            id={hero.id}
-            to={`/characters/${hero.id}`}
-            body={<p>{hero.description}</p>}
-          />
+        {characters.map((hero: Hero) => (
+          <HeroCard hero={hero} />
         ))}
       </InfiniteScroll>
     </Grid>
